@@ -31,10 +31,12 @@ export const getSimulatedResponse = async (scenario: string, userResponse: strin
     model: 'gemini-3-flash-preview',
     contents: `
       Scenario: ${scenario}
-      The student says: "${userResponse}"
+      The student's past experience/reaction: "${userResponse}"
       
-      Provide a helpful, real-world piece of advice on how to handle this exact situation during an exam. 
-      Limit to 3 short sentences. Be practical and calming.
+      Provide empathetic, brief, and constructive feedback on how they handled this. 
+      If their reaction was panicked, validate the feeling but suggest one small 'next time' strategy. 
+      If it was calm, reinforce why that was a great move. 
+      Limit to 3 short sentences. Be supportive and practical.
     `,
     config: {
       temperature: 0.7,

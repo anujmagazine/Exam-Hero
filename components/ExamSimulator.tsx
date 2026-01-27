@@ -79,12 +79,12 @@ const ExamSimulator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className="block text-slate-700 font-bold mb-3 text-sm uppercase tracking-wide">
-                    How would you handle this in the exam hall?
+                    How did you handle this situation last time you faced it?
                   </label>
                   <textarea 
                     value={userAction}
                     onChange={(e) => setUserAction(e.target.value)}
-                    placeholder="e.g., I would take 3 deep breaths, skip the question, and look for something I know..."
+                    placeholder="Describe what happened and what you did. Be honest, there are no wrong answers!"
                     className="w-full min-h-[120px] p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-800"
                     required
                   />
@@ -134,7 +134,7 @@ const ExamSimulator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     <div className="animate-in slide-in-from-right-4 duration-500">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Practice for the Moment 🎯</h2>
-        <p className="text-slate-500">Select a stressful situation and practice your emotional response.</p>
+        <p className="text-slate-500">Select a stressful situation and reflect on your real-world experience.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
