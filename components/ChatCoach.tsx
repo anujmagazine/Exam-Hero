@@ -58,64 +58,73 @@ const ChatCoach: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   return (
-    <div className="flex flex-col h-[75vh] bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden animate-in slide-in-from-bottom-4 duration-500">
-      <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center gap-3">
-        <button onClick={onBack} className="text-slate-400 hover:text-slate-600">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-bold">ZC</div>
-        <div>
-          <h3 className="text-sm font-bold text-slate-900">ZenBoard Coach</h3>
-          <p className="text-[10px] text-emerald-500 font-bold uppercase">Online & Listening</p>
+    <div className="flex flex-col h-[70vh] lg:h-[80vh] bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden animate-in slide-in-from-bottom-4 duration-500">
+      <div className="p-4 lg:p-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button onClick={onBack} className="text-slate-400 hover:text-slate-600 transition-colors p-1">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <div className="w-10 h-10 lg:w-12 lg:h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white text-sm lg:text-base font-bold shadow-md shadow-indigo-100">ZC</div>
+          <div>
+            <h3 className="text-base font-bold text-slate-900">ZenBoard Coach</h3>
+            <p className="text-[10px] lg:text-xs text-emerald-500 font-bold uppercase tracking-wider">Online & Listening</p>
+          </div>
+        </div>
+        <div className="hidden lg:block text-xs font-medium text-slate-400 italic">
+          Your private mental health space
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((m, i) => (
-          <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[90%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${
-              m.role === 'user' 
-                ? 'bg-indigo-600 text-white rounded-tr-none' 
-                : 'bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200'
-            }`}>
-              {m.role === 'user' ? (
-                <div>{m.text}</div>
-              ) : (
-                <div 
-                  className="markdown-content" 
-                  dangerouslySetInnerHTML={renderContent(m.text)} 
-                />
-              )}
+      <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-6 bg-slate-50/30">
+        <div className="max-w-4xl mx-auto space-y-6">
+          {messages.map((m, i) => (
+            <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[85%] lg:max-w-[75%] p-5 lg:p-6 rounded-2xl text-base leading-relaxed shadow-sm transition-all ${
+                m.role === 'user' 
+                  ? 'bg-indigo-600 text-white rounded-tr-none' 
+                  : 'bg-white text-slate-800 rounded-tl-none border border-slate-100'
+              }`}>
+                {m.role === 'user' ? (
+                  <div className="font-medium">{m.text}</div>
+                ) : (
+                  <div 
+                    className="markdown-content prose prose-slate max-w-none" 
+                    dangerouslySetInnerHTML={renderContent(m.text)} 
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-        {isTyping && (
-          <div className="flex justify-start">
-            <div className="bg-slate-100 p-3 rounded-2xl flex gap-1">
-              <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
-              <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-              <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+          ))}
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-white p-4 rounded-2xl flex gap-1.5 border border-slate-100 shadow-sm">
+                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+              </div>
             </div>
-          </div>
-        )}
-        <div ref={scrollRef} />
+          )}
+          <div ref={scrollRef} />
+        </div>
       </div>
 
-      <form onSubmit={handleSend} className="p-4 border-t border-slate-100 bg-white flex gap-2">
-        <input 
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Share your exam fear..."
-          className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
-        />
-        <button 
-          type="submit"
-          className="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-100"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-        </button>
-      </form>
+      <div className="p-4 lg:p-8 border-t border-slate-100 bg-white">
+        <form onSubmit={handleSend} className="max-w-4xl mx-auto flex gap-4">
+          <input 
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Share your exam fear..."
+            className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-base focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-inner"
+          />
+          <button 
+            type="submit"
+            className="bg-indigo-600 text-white px-6 lg:px-8 rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 hover:scale-105 active:scale-95"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

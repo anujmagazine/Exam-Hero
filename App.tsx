@@ -28,7 +28,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header currentTab={activeTab} setTab={setActiveTab} />
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 pb-24">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-8 pb-24 transition-all duration-300">
         {renderContent()}
       </main>
       
