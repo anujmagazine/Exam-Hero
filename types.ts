@@ -16,5 +16,6 @@ export enum AppState {
   HOME = 'home',
   SIMULATOR = 'simulator',
   BREATHING = 'breathing',
-  COACH = 'coach'
+  COACH = 'coach',
+  PHYSIOLOGICAL_SIGH = 'sigh'
 }

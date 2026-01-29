@@ -6,6 +6,7 @@ import Home from './components/Home';
 import ExamSimulator from './components/ExamSimulator';
 import BreathingExercise from './components/BreathingExercise';
 import ChatCoach from './components/ChatCoach';
+import PhysiologicalSigh from './components/PhysiologicalSigh';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppState>(AppState.HOME);
@@ -20,6 +21,8 @@ const App: React.FC = () => {
         return <BreathingExercise onBack={() => setActiveTab(AppState.HOME)} />;
       case AppState.COACH:
         return <ChatCoach onBack={() => setActiveTab(AppState.HOME)} />;
+      case AppState.PHYSIOLOGICAL_SIGH:
+        return <PhysiologicalSigh onBack={() => setActiveTab(AppState.HOME)} />;
       default:
         return <Home onStart={(tab) => setActiveTab(tab)} />;
     }
