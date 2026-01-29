@@ -39,7 +39,7 @@ const PhysiologicalSigh: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
   const getInstruction = () => {
     switch (step) {
-      case 'Ready': return "Ready for a 20-second biological reset?";
+      case 'Ready': return "The Rapid Biological Reset";
       case 'Inhale': return "Inhale slowly through your nose";
       case 'Top-up': return "Quick second inhale to top up";
       case 'Exhale': return "Long, slow exhale through the mouth";
@@ -69,17 +69,28 @@ const PhysiologicalSigh: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     <div className="flex flex-col items-center justify-center min-h-[70vh] max-w-2xl mx-auto px-6 text-center animate-in fade-in duration-700">
       <div className="mb-6">
         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] bg-slate-100 px-4 py-1.5 rounded-full">
-          Biological Reset
+          Neuroscience Tool
         </span>
       </div>
       
-      <div className="h-24 mb-12 flex items-center justify-center">
+      <div className="h-24 mb-6 flex items-center justify-center">
         <h2 className="text-2xl lg:text-3xl font-bold text-slate-800 transition-all duration-500">
           {getInstruction()}
         </h2>
       </div>
 
-      <div className="relative flex items-center justify-center w-72 h-72 lg:w-96 lg:h-96 mb-16">
+      {step === 'Ready' && (
+        <div className="mb-10 max-w-md animate-in fade-in slide-in-from-bottom-2 duration-1000">
+          <p className="text-slate-600 leading-relaxed">
+            The <strong>Physiological Sigh</strong> is a real-time tool to lower your heart rate. 
+            By adding a second "sniff" at the top of your breath, you re-inflate tiny air sacs in your lungs, 
+            allowing you to offload maximum CO2 on the exhale. 
+            <span className="block mt-2 font-medium text-indigo-600">It's a biological "off-switch" for stress.</span>
+          </p>
+        </div>
+      )}
+
+      <div className="relative flex items-center justify-center w-64 h-64 lg:w-80 lg:h-80 mb-12">
         {/* Outer Glow */}
         <div 
           className={`absolute inset-0 rounded-full transition-all duration-700 ease-out bg-indigo-200/20 blur-3xl ${step === 'Top-up' ? 'scale-125' : 'scale-100'}`}
@@ -121,14 +132,14 @@ const PhysiologicalSigh: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             onClick={start}
             className="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
           >
-            Start Exercise
+            Start Reset
           </button>
         ) : step === 'Finished' ? (
           <button 
             onClick={onBack}
             className="w-full bg-emerald-600 text-white font-bold py-5 rounded-2xl shadow-xl shadow-emerald-100 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
           >
-            Done
+            I feel settled
           </button>
         ) : (
           <button 
