@@ -73,17 +73,47 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         </h2>
       </div>
 
-      <div className="h-32 mb-12 flex items-center justify-center max-w-lg">
-        <p className={`text-lg lg:text-xl leading-relaxed transition-all duration-700 ${
-          step === 'Refocus' ? 'text-indigo-600 font-bold scale-110' : 'text-slate-500'
-        }`}>
-          {getSubtext()}
-        </p>
-      </div>
+      {step === 'Ready' && (
+        <div className="mb-10 max-w-md animate-in fade-in slide-in-from-bottom-2 duration-1000">
+          <p className="text-slate-600 leading-relaxed mb-6">
+            When your mind starts wandering to "what if" fears or distracting thoughts during an exam, you need to <strong>Clear the Noise</strong> to get back to the current question.
+          </p>
+          <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left space-y-4">
+            <h4 className="font-bold text-slate-800 text-sm uppercase tracking-wide">How it works:</h4>
+            <div className="flex gap-3">
+              <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">1</div>
+              <p className="text-slate-600 text-sm"><strong>Acknowledge:</strong> See the thought clearly without getting angry at it.</p>
+            </div>
+            <div className="flex gap-3">
+              <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">2</div>
+              <p className="text-slate-600 text-sm"><strong>Park:</strong> Mentally put that thought in a "waiting room" for after the bell.</p>
+            </div>
+            <div className="flex gap-3">
+              <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">3</div>
+              <p className="text-slate-600 text-sm"><strong>Refocus:</strong> Repeat a simple anchor line to get back to work.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {step !== 'Ready' && (
+        <div className="h-32 mb-12 flex items-center justify-center max-w-lg">
+          <p className={`text-lg lg:text-xl leading-relaxed transition-all duration-700 ${
+            step === 'Refocus' ? 'text-indigo-600 font-bold scale-110' : 'text-slate-500'
+          }`}>
+            {getSubtext()}
+          </p>
+        </div>
+      )}
 
       <div className="relative flex items-center justify-center w-64 h-64 mb-16">
         {/* Animated Visuals */}
         <div className="absolute inset-0 flex items-center justify-center">
+          {step === 'Ready' && (
+            <div className="w-32 h-32 bg-indigo-50 rounded-full flex items-center justify-center text-4xl animate-pulse">
+              🧠
+            </div>
+          )}
           {step === 'Notice' && (
             <div className="flex gap-1 animate-pulse">
               <div className="w-2 h-12 bg-slate-200 rounded-full rotate-12"></div>
@@ -113,7 +143,7 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             onClick={start}
             className="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
           >
-            Start Reset
+            Start Refocus
           </button>
         ) : step === 'Done' ? (
           <button 
