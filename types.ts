@@ -17,5 +17,6 @@ export enum AppState {
   SIMULATOR = 'simulator',
   BREATHING = 'breathing',
   COACH = 'coach',
-  PHYSIOLOGICAL_SIGH = 'sigh'
+  PHYSIOLOGICAL_SIGH = 'sigh',
+  CLEAR_THE_NOISE = 'noise'
 }

@@ -23,10 +23,10 @@ const Home: React.FC<HomeProps> = ({ onStart }) => {
               Rapid Sigh (20s)
             </button>
             <button 
-              onClick={() => onStart(AppState.BREATHING)}
+              onClick={() => onStart(AppState.CLEAR_THE_NOISE)}
               className="bg-indigo-500/30 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-full font-bold text-base hover:bg-white/20 transition-all hover:scale-105"
             >
-              Deep Box Reset
+              Clear Noise (15s)
             </button>
           </div>
         </div>
@@ -77,22 +77,28 @@ const Home: React.FC<HomeProps> = ({ onStart }) => {
           </div>
           <h3 className="text-xl font-bold text-slate-900 mb-3">Quick Resets</h3>
           <p className="text-slate-500 text-sm mb-6 leading-relaxed flex-1">
-            Biological tools to lower your heart rate instantly. Choose the method that fits your moment.
+            Tools to lower your stress instantly. Choose the method that fits your moment.
           </p>
-          <div className="space-y-3">
+          <div className="space-y-2">
             <button 
               onClick={() => onStart(AppState.PHYSIOLOGICAL_SIGH)}
-              className="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 text-sm"
             >
               <span>Rapid Sigh</span>
               <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">20s</span>
             </button>
             <button 
+              onClick={() => onStart(AppState.CLEAR_THE_NOISE)}
+              className="w-full bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-sm"
+            >
+              <span>Clear Noise</span>
+              <span className="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full">15s</span>
+            </button>
+            <button 
               onClick={() => onStart(AppState.BREATHING)}
-              className="w-full bg-slate-50 text-slate-700 font-bold py-3 rounded-xl border border-slate-200 hover:bg-slate-100 transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-white text-slate-500 font-bold py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 text-sm"
             >
               <span>Box Breathing</span>
-              <span className="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full">4m</span>
             </button>
           </div>
         </section>
