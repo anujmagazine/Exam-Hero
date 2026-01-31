@@ -12,26 +12,48 @@ const SELF_TALK_LINES = [
   "I am prepared for this moment."
 ];
 
+const STEP_DURATIONS: Record<string, number> = {
+  Notice: 4,
+  Park: 4,
+  Refocus: 5
+};
+
 const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [step, setStep] = useState<NoiseStep>('Ready');
   const [focusLine, setFocusLine] = useState('');
+  const [timeLeft, setTimeLeft] = useState(0);
 
+  // Handle Step Transitions
   useEffect(() => {
     let timeout: any;
     
     if (step === 'Notice') {
-      timeout = setTimeout(() => setStep('Park'), 4000);
+      setTimeLeft(STEP_DURATIONS.Notice);
+      timeout = setTimeout(() => setStep('Park'), STEP_DURATIONS.Notice * 1000);
     } else if (step === 'Park') {
+      setTimeLeft(STEP_DURATIONS.Park);
       timeout = setTimeout(() => {
         setFocusLine(SELF_TALK_LINES[Math.floor(Math.random() * SELF_TALK_LINES.length)]);
         setStep('Refocus');
-      }, 4000);
+      }, STEP_DURATIONS.Park * 1000);
     } else if (step === 'Refocus') {
-      timeout = setTimeout(() => setStep('Done'), 5000);
+      setTimeLeft(STEP_DURATIONS.Refocus);
+      timeout = setTimeout(() => setStep('Done'), STEP_DURATIONS.Refocus * 1000);
     }
 
     return () => clearTimeout(timeout);
   }, [step]);
+
+  // Handle Countdown Timer
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => Math.max(0, prev - 1));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
 
   const start = () => {
     setStep('Notice');
@@ -67,10 +89,15 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         </span>
       </div>
       
-      <div className="h-16 mb-4 flex items-center justify-center">
+      <div className="h-16 mb-4 flex flex-col items-center justify-center">
         <h2 className="text-2xl lg:text-4xl font-bold text-slate-800 transition-all duration-500">
           {getHeading()}
         </h2>
+        {timeLeft > 0 && (step !== 'Ready' && step !== 'Done') && (
+          <span className="text-indigo-600 font-bold text-sm mt-1 animate-pulse">
+            {timeLeft}s remaining
+          </span>
+        )}
       </div>
 
       {step === 'Ready' && (
@@ -82,15 +109,15 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             <h4 className="font-bold text-slate-800 text-[10px] uppercase tracking-wide">How it works:</h4>
             <div className="flex gap-3">
               <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0">1</div>
-              <p className="text-slate-600 text-xs lg:text-sm"><strong>Acknowledge:</strong> See the thought clearly without getting angry at it.</p>
+              <p className="text-slate-600 text-xs lg:text-sm"><strong>Acknowledge:</strong> See the thought clearly without getting angry at it. (4s)</p>
             </div>
             <div className="flex gap-3">
               <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0">2</div>
-              <p className="text-slate-600 text-xs lg:text-sm"><strong>Park:</strong> Mentally put that thought in a "waiting room" for later.</p>
+              <p className="text-slate-600 text-xs lg:text-sm"><strong>Park:</strong> Mentally put that thought in a "waiting room" for later. (4s)</p>
             </div>
             <div className="flex gap-3">
               <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0">3</div>
-              <p className="text-slate-600 text-xs lg:text-sm"><strong>Refocus:</strong> Repeat a simple anchor line to get back to work.</p>
+              <p className="text-slate-600 text-xs lg:text-sm"><strong>Refocus:</strong> Repeat a simple anchor line to get back to work. (5s)</p>
             </div>
           </div>
         </div>
@@ -115,10 +142,13 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </div>
           )}
           {step === 'Notice' && (
-            <div className="flex gap-1 animate-pulse">
+            <div className="flex gap-1 animate-pulse relative">
               <div className="w-2 h-12 bg-slate-200 rounded-full rotate-12"></div>
               <div className="w-2 h-16 bg-slate-300 rounded-full -rotate-12"></div>
               <div className="w-2 h-10 bg-slate-200 rounded-full rotate-45"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                 <div className="w-20 h-20 border-2 border-indigo-200 rounded-full border-t-indigo-600 animate-spin"></div>
+              </div>
             </div>
           )}
           {step === 'Park' && (
@@ -127,10 +157,15 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </div>
           )}
           {step === 'Refocus' && (
-            <div className="w-32 h-32 bg-indigo-600 rounded-full animate-ping opacity-20"></div>
+            <div className="relative">
+              <div className="w-32 h-32 bg-indigo-600 rounded-full animate-ping opacity-20"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-2xl">🎯</div>
+              </div>
+            </div>
           )}
           {step === 'Done' && (
-            <div className="text-emerald-500">
+            <div className="text-emerald-500 scale-125 transition-transform duration-700">
               <svg className="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
           )}
@@ -153,8 +188,16 @@ const ClearTheNoise: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             Back to Work
           </button>
         ) : (
-          <div className="text-slate-300 font-bold uppercase tracking-widest animate-pulse">
-            Processing...
+          <div className="flex flex-col items-center">
+            <div className="text-slate-300 font-bold uppercase tracking-widest animate-pulse mb-2">
+              Stay Focused
+            </div>
+            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+               <div 
+                 className="h-full bg-indigo-500 transition-all duration-1000 ease-linear"
+                 style={{ width: `${(timeLeft / (STEP_DURATIONS[step] || 5)) * 100}%` }}
+               ></div>
+            </div>
           </div>
         )}
       </div>
