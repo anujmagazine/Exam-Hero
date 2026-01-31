@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AppState } from '../types';
 
 interface HomeProps {
@@ -7,6 +7,8 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ onStart }) => {
+  const [showResets, setShowResets] = useState(false);
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-8 lg:p-12 text-white mb-10 shadow-xl shadow-indigo-100 relative overflow-hidden">
@@ -70,36 +72,58 @@ const Home: React.FC<HomeProps> = ({ onStart }) => {
           </button>
         </section>
 
-        {/* Card 3: Calmness Lab (Consolidated) */}
-        <section className="bg-white p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col">
+        {/* Card 3: Quick Resets (Expandable Square Layout) */}
+        <section className="bg-white p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col overflow-hidden">
           <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
           </div>
           <h3 className="text-xl font-bold text-slate-900 mb-3">Quick Resets</h3>
-          <p className="text-slate-500 text-sm mb-6 leading-relaxed flex-1">
-            Tools to lower your stress instantly. Choose the method that fits your moment.
+          <p className="text-slate-500 text-sm mb-6 leading-relaxed">
+            Choose a biology-backed tool to instantly settle your nerves.
           </p>
-          <div className="space-y-2">
-            <button 
-              onClick={() => onStart(AppState.PHYSIOLOGICAL_SIGH)}
-              className="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 text-sm"
-            >
-              <span>Rapid Sigh</span>
-              <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">20s</span>
-            </button>
-            <button 
-              onClick={() => onStart(AppState.CLEAR_THE_NOISE)}
-              className="w-full bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-sm"
-            >
-              <span>Clear Noise</span>
-              <span className="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full">15s</span>
-            </button>
-            <button 
-              onClick={() => onStart(AppState.BREATHING)}
-              className="w-full bg-white text-slate-500 font-bold py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 text-sm"
-            >
-              <span>Box Breathing</span>
-            </button>
+          
+          <div className="mt-auto min-h-[180px] flex items-center justify-center relative">
+            {!showResets ? (
+              <button 
+                onClick={() => setShowResets(true)}
+                className="w-full h-full min-h-[160px] bg-indigo-50 border-2 border-dashed border-indigo-200 rounded-2xl flex flex-col items-center justify-center group hover:bg-indigo-100 hover:border-indigo-300 transition-all duration-300"
+              >
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                </div>
+                <span className="font-bold text-indigo-700">Reset Exercises</span>
+                <span className="text-[10px] text-indigo-400 mt-1 uppercase tracking-wider">Tap to View Tools</span>
+              </button>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 w-full animate-in zoom-in-95 duration-300">
+                <button 
+                  onClick={() => onStart(AppState.PHYSIOLOGICAL_SIGH)}
+                  className="col-span-2 group flex flex-col items-center justify-center p-4 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100"
+                >
+                  <div className="text-2xl mb-1 group-hover:scale-125 transition-transform duration-300">🫁</div>
+                  <span className="font-bold text-sm">Rapid Sigh</span>
+                  <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full mt-1">20 Seconds</span>
+                </button>
+                
+                <button 
+                  onClick={() => onStart(AppState.CLEAR_THE_NOISE)}
+                  className="group flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 text-slate-700 rounded-2xl hover:bg-slate-100 hover:border-slate-300 transition-all"
+                >
+                  <div className="text-2xl mb-1 group-hover:scale-110 transition-transform">🔇</div>
+                  <span className="font-bold text-[13px]">Clear Noise</span>
+                  <span className="text-[10px] text-slate-400 mt-1">15s</span>
+                </button>
+                
+                <button 
+                  onClick={() => onStart(AppState.BREATHING)}
+                  className="group flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 text-slate-700 rounded-2xl hover:bg-slate-100 hover:border-slate-300 transition-all"
+                >
+                  <div className="text-2xl mb-1 group-hover:scale-110 transition-transform">🌬️</div>
+                  <span className="font-bold text-[13px]">Box Breath</span>
+                  <span className="text-[10px] text-slate-400 mt-1">4m</span>
+                </button>
+              </div>
+            )}
           </div>
         </section>
       </div>
